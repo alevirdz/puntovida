@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Backend Laravel
+  app: 
+    image: laravel-app
+    container_name: laravel-php82-container
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql-db-laravel
+      - DB_PORT=3306  # Puerto predeterminado de MySQL
+      - DB_DATABASE=laravel
+      - DB_USERNAME=app
+      - DB_PASSWORD=root_
+    depends_on:
+      - db
+    networks:
+      - laravel-share-container
+
+  # Base de datos MySQL
+  db:
+    image: mysql:8
+    container_name: mysql-db-laravel
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Contraseña para el usuario root
+      MYSQL_DATABASE: laravel  # Nombre de la base de datos predeterminada
+      MYSQL_USER: app  # Usuario de MySQL
+      MYSQL_PASSWORD: root_  # Contraseña para el usuario de MySQL
+    ports:
+      - "3320:3306"  # Mapea el puerto 3306 de MySQL al puerto 3320 de tu máquina local
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persistencia de datos para la base de datos
+    networks:
+      - laravel-share-container
+
+networks:
+  laravel-share-container:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
