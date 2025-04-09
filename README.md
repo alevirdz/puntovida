@@ -24,66 +24,83 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 The Laravel + React starter kit is open-sourced software licensed under the MIT license.
 
-## Creación de la imagen docker
+# Settings to Docker
 
+## Docker image creation
+```bash
 docker build -t laravel-app .
+```
 
-# Ejecutamos el contenedor
+## Running Docker
+```bash
 docker compose up 
+```
 
-# entrar al contenedor
-docker exec -it 98123862192 bash
+## Accessing to Docker Container with Bash
+```bash
+docker exec -it 98123862... bash
+```
 
-# Instalar el composer
+## Installing Dependencies 
+```
 composer install
+```
 
-# Reinciar el servidor de apache para que reconozca la instalación de composer
+## Restarting Apache2 Service
+```
 service apache2 restart
+```
 
-# descargar node sino existe:
+## Updating Package List NODE & NPM 
+```
 apt-get update
 apt-get install -y nodejs npm
+```
 
 
-
-
-# Crear tu archivo de conexión con env
-tu archivo env:
-
+## Database Configuration for Docker Environment
+```
 DB_CONNECTION=mysql
 DB_HOST=mysql-db-laravel
 DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=app
-DB_PASSWORD=root_
+DB_PASSWORD=example_root_
+```
 
+# THEN
 
-# genera la clave de cifrado de laravel
+## Generate Laravel Application Key
+This key will automatically be added to your .env file:
+```
 php artisan key:generate
+```
 
-- automaticamente se agregará esa clave en tu env
-APP_KEY=base64:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=
-
-- Reinicia:
+```
 service apache2 restart
+```
 
-# Instalar las migraciones
+## Running Database Migrations
+```
 php artisan migrate
+```
 
-
-# npm para react asi descargar las dependencias
+## Installing Dependencies with npm
+```
 npm install 
-
-# ejecuta tu npm 
+```
+## Running the enviroment server
+```bash
 npm run dev
+```
 
 
+### Some trouble: 
 
+❌ **Error**: The stream or file "/var/www/html/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied The exception occurred while attempting to log:
 
-
-# algunos problemas: 
-
-The stream or file "/var/www/html/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied The exception occurred while attempting to log:
-otorgar persmisos:
+> Grant permissions on the folder...
+```bash
 chown -R www-data:www-data /var/www/html/storage
 chmod -R 775 /var/www/html/storage
+```
