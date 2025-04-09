@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::redirect('productUserTest', '/product-test-web-section');
-    
-    Route::get('product-test-web-section', [ProductUserController::class, 'create'])
+
+    Route::get('productUserTest', [ProductUserController::class, 'create'])
     ->name('productUserTest');
 
-    Route::post('product-test-web-section', [ProductUserController::class, 'store'])
+    Route::post('productUserTest', [ProductUserController::class, 'store'])
     ->name('productUserTest.store');
+
 });

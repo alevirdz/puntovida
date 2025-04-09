@@ -1,7 +1,8 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductUserController;
+
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -13,11 +14,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-//Renderizando mi primera vista
+//Renderizando productUserTest
 Route::middleware(['auth', 'verified'])->group(function () {
+
     Route::get('product-test-web-section', function () {
         return Inertia::render('productUserTest');
     })->name('productUserTest');
+
+    Route::post('product-test-web-section', [ProductUserController::class, 'store'])
+        ->name('productUserTest.store');
 });
 
 require __DIR__.'/settings.php';

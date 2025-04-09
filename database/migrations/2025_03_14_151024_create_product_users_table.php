@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_users', function (Blueprint $table) {
             $table->id();
-            //Creamos las columnas que necesitamos:
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('firstName');
+            $table->string('lastName');
             $table->string('secondLastName');
             $table->string('email')->unique();
             $table->string('description');            

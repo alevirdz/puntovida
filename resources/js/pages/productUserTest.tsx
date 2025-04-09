@@ -1,5 +1,4 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
-import { Transition } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
@@ -9,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { TextArea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { LoaderCircle } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
 
 
@@ -30,7 +30,7 @@ interface ProductUserForm {
 
 export default function RegisterUser() {
 
-  const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<ProductUserForm>>({
+  const { data, setData, post, reset, errors, processing, recentlySuccessful } = useForm({
     firstName: '',
     lastName: '',
     secondLastName: '',
@@ -42,8 +42,11 @@ export default function RegisterUser() {
     e.preventDefault();
     post(route('productUserTest.store'), {
       preserveScroll: true,
+      onSuccess: () => reset(),
+      // onError: (errors) => {},
     });
-  };
+};
+
 
   
   return (
@@ -72,6 +75,7 @@ export default function RegisterUser() {
                       onChange={(e) => setData('firstName', e.target.value)} 
                       placeholder="Escribe tu nombre"
                     />
+                     {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -84,6 +88,7 @@ export default function RegisterUser() {
                       onChange={(e) => setData('lastName', e.target.value)} 
                       placeholder="Escribe tu apellido"
                     />
+                     {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -96,6 +101,7 @@ export default function RegisterUser() {
                       onChange={(e) => setData('secondLastName', e.target.value)}
                       placeholder="Escribe tu segundo apellido"
                     />
+                    {errors.secondLastName && <p className="text-red-500 text-sm">{errors.secondLastName}</p>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -108,6 +114,7 @@ export default function RegisterUser() {
                       onChange={(e) => setData('email', e.target.value)}
                       placeholder="Escribe tu correo electrónico"
                     />
+                     {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                   </div>
 
                   <div className="flex flex-col gap-2 col-span-2">
@@ -120,24 +127,24 @@ export default function RegisterUser() {
                      placeholder="Escribe una breve descripción"
                      rows={6}
                     />
+                    {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
                   </div>
                 </div>
               </CardContent>
               <CardFooter>
               <div className="flex items-center gap-2 mt-6">
-                <Button disabled={processing} variant="secondary" className="w-full space-y-6 ">
-                  Registrar
+                <Button disabled={processing} variant="secondary" className="w-full space-y-6">
+                  {processing ? (
+                    <>
+                      <LoaderCircle className="h-4 w-4 animate-spin" />
+                      Registrando
+                    </>
+                  ) : (
+                    "Registrar"
+                  )}
                 </Button>
-                <Transition
-                  show={recentlySuccessful}
-                  enter="transition ease-in-out"
-                  enterFrom="opacity-0"
-                  leave="transition ease-in-out"
-                  leaveTo="opacity-0"
-                >
-                <p className="text-sm text-neutral-600">Registrado</p>
-              </Transition>
               </div>
+
               </CardFooter>
             </form>
           </Card>
