@@ -1,5 +1,5 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 
@@ -10,6 +10,7 @@ import { TextArea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
+import { useEffect } from 'react';
 
 
 
@@ -46,7 +47,14 @@ export default function RegisterUser() {
       // onError: (errors) => {},
     });
 };
+const page = usePage<SharedData>();
+const { auth, roles, permissions } = page.props;
 
+useEffect(() => {
+  console.log("Usuario:", auth.user);
+  console.log("Roles:", roles);
+  console.log("Permisos:", permissions);
+}, []);
 
   
   return (

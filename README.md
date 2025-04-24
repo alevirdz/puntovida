@@ -109,3 +109,6 @@ chmod -R 775 /var/www/html/storage
 # 
 Con docker exec corre php artisan serve
 y desde la consola normal sin entrar al contenedor, ejecuta el run dev
+
+Ejecutar para tener datos por defecto
+php artisan db:seed

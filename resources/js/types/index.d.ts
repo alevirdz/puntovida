@@ -28,6 +28,8 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     [key: string]: unknown;
+    roles: string[];
+    permissions: string[];
 }
 
 export interface User {
