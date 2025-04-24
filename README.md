@@ -104,3 +104,8 @@ npm run dev
 chown -R www-data:www-data /var/www/html/storage
 chmod -R 775 /var/www/html/storage
 ```
+
+
+# 
+Con docker exec corre php artisan serve
+y desde la consola normal sin entrar al contenedor, ejecuta el run dev

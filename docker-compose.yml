@@ -12,10 +12,11 @@ services:
     environment:
       - DB_CONNECTION=mysql
       - DB_HOST=mysql-db-laravel
-      - DB_PORT=3306  # Puerto predeterminado de MySQL
+      - DB_PORT=3306
       - DB_DATABASE=laravel
       - DB_USERNAME=app
       - DB_PASSWORD=root_
+      - VITE_DEV_SERVER_URL=http://host.docker.internal:5173
     depends_on:
       - db
     networks:
@@ -26,14 +27,29 @@ services:
     image: mysql:8
     container_name: mysql-db-laravel
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Contraseña para el usuario root
-      MYSQL_DATABASE: laravel  # Nombre de la base de datos predeterminada
-      MYSQL_USER: app  # Usuario de MySQL
-      MYSQL_PASSWORD: root_  # Contraseña para el usuario de MySQL
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: app
+      MYSQL_PASSWORD: root_
     ports:
-      - "3320:3306"  # Mapea el puerto 3306 de MySQL al puerto 3320 de tu máquina local
+      - "3320:3306"
     volumes:
-      - mysql-data:/var/lib/mysql  # Persistencia de datos para la base de datos
+      - mysql-data:/var/lib/mysql
+    networks:
+      - laravel-share-container
+
+  # Frontend Vite + React
+  vite:
+    image: node:20
+    container_name: vite-container
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "5173:5173"  # Exponer el puerto 5173 del contenedor al host para Vite
+    command: sh -c "npm install && npm run dev -- --host"
+    depends_on:
+      - app
     networks:
       - laravel-share-container
 
